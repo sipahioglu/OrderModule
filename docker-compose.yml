@@ -1,0 +1,24 @@
+﻿
+services:
+  ordermodulesystem:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - ConnectionStrings__PostgreConnection=Host=ordermodule_database;Database=OrderModule;Username=postgres;Password=1
+    depends_on:
+      - ordermodule_database
+
+  ordermodule_database:
+    image: postgres:latest
+    container_name: ordermodule_database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1
+      POSTGRES_DB: OrderModule
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./.containers/ordermodule-db:/var/lib/postgresql/data
